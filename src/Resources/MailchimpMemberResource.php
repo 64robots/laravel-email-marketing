@@ -4,7 +4,7 @@ namespace R64\LaravelEmailMarketing\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class MailchimpListResource extends JsonResource
+class MailchimpMemberResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,10 @@ class MailchimpListResource extends JsonResource
     {
         return [
             'id' => $this['id'],
-            'name' => $this['name'],
-            'subscribers' => $this['stats']['member_count']
+            'name' => $this['merge_fields']['FNAME'] . ' ' . $this['merge_fields']['LNAME'],
+            'email' => $this['email_address'],
+            'subscribed_at' => $this['timestamp_opt'],
+            'tags' => $this['tags']
         ];
     }
 }

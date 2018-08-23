@@ -34,6 +34,7 @@ class MailchimpMarketingTool extends BaseMarketingTool implements MarketingToolC
         if (!$lists) {
             return false;
         }
+        dd($lists);
         return MailchimpListResource::collection(collect($lists['lists']));
     }
 
