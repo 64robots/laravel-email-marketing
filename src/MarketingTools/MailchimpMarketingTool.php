@@ -6,7 +6,7 @@ use R64\LaravelEmailMarketing\Contracts\MarketingTool as MarketingToolContract;
 use R64\LaravelEmailMarketing\Exceptions\InvalidConfiguration;
 use R64\LaravelEmailMarketing\MarketingTools\BaseMarketingTool;
 use R64\LaravelEmailMarketing\Resources\MailchimpListResource;
-use R64\LaravelEmailMarketing\Transformers\MailchimpListTransformer;
+use R64\LaravelEmailMarketing\Resources\MailchimpMemberResource;
 
 class MailchimpMarketingTool extends BaseMarketingTool implements MarketingToolContract
 {   
@@ -48,7 +48,7 @@ class MailchimpMarketingTool extends BaseMarketingTool implements MarketingToolC
             return false;
         }
 
-        return $list;
+        return new MailchimpListResource($list);
     }
 
     /**
@@ -57,12 +57,12 @@ class MailchimpMarketingTool extends BaseMarketingTool implements MarketingToolC
      * @param  string  $listId
      */
     public function getListMembers($listId) {
-        $list = $this->mailchimpApi->get('lists/' . $listId . '/members');
-        if (!$list) {
+        $listMembers = $this->mailchimpApi->get('lists/' . $listId);
+        if (!$listMembers) {
             return false;
         }
 
-        return $list;
+        return MailchimpMemberResource::collection(collect($listMembers['members']));
     }
 
     
