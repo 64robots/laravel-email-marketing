@@ -57,7 +57,7 @@ class MailchimpMarketingTool extends BaseMarketingTool implements MarketingToolC
      * @param  string  $listId
      */
     public function getListMembers($listId) {
-        $listMembers = $this->mailchimpApi->get('lists/' . $listId);
+        $listMembers = $this->mailchimpApi->get('lists/' . $listId . '/members');
         if (!$listMembers) {
             return false;
         }
