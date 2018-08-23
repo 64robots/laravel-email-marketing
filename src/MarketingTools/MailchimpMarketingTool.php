@@ -48,7 +48,7 @@ class MailchimpMarketingTool extends BaseMarketingTool implements MarketingToolC
             return false;
         }
 
-        return new $list;
+        return $list;
     }
 
     /**
@@ -62,7 +62,7 @@ class MailchimpMarketingTool extends BaseMarketingTool implements MarketingToolC
             return false;
         }
 
-        return new $list;
+        return $list;
     }
 
     
