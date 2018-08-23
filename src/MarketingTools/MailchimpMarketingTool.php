@@ -48,9 +48,24 @@ class MailchimpMarketingTool extends BaseMarketingTool implements MarketingToolC
             return false;
         }
 
-        return new MailchimpListResource($list);
+        return new $list;
     }
 
+    /**
+     * 
+     *
+     * @param  string  $listId
+     */
+    public function getListMembers($listId) {
+        $list = $this->mailchimpApi->get('lists/' . $listId . '/members');
+        if (!$list) {
+            return false;
+        }
+
+        return new $list;
+    }
+
+    
     public function createList() {
 
     }
