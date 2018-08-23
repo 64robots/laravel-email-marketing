@@ -48,9 +48,9 @@ class MarketingToolManager extends BaseMarketingTool implements MarketingToolCon
     }
 
     public function getListMembers($listId) {
-        return $this->marketingTool->getMembers($listId);
+        return $this->marketingTool->getListMembers($listId);
     }
-    
+
     public function isConnected() {
         return $this->connected;
     }
