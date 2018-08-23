@@ -1,0 +1,28 @@
+{
+    "name": "r64/laravel-email-marketing",
+    "description": "A Laravel package to performa actions on a number of email marketing tools",
+    "keywords": [
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=7.1.0",
+        "drewm/mailchimp-api": "^2.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "R64\\LaravelEmailMarketing\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "R64\\LaravelEmailMarketing\\EmailMarketingServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
