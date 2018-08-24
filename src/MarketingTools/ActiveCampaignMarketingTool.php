@@ -14,8 +14,9 @@ class ActiveCampaignMarketingTool extends BaseMarketingTool implements Marketing
 
     private $connected; 
 
+
     /**
-     * 
+     * Initailize the ActiveCampaign API
      */
     function __construct() {
         $credentials = $this->credentials();
@@ -27,7 +28,9 @@ class ActiveCampaignMarketingTool extends BaseMarketingTool implements Marketing
     }
 
     /**
+     * Retrieve all lists for the connected ActiveCampaign account
      *
+     * @return R64\LaravelEmailMarketing\Resources\ActiveCampaignListResource
      */
     public function getLists() {
         
@@ -42,9 +45,10 @@ class ActiveCampaignMarketingTool extends BaseMarketingTool implements Marketing
     }
 
     /**
-     * 
+     * Retrieve a specific list with id $listId for the connected ActiveCampaign account
      *
      * @param  string  $listId
+     * @return R64\LaravelEmailMarketing\Resources\ActiveCampaignListResource
      */
     public function getList($listId) {
         $list = $this->acApi->api('list/view?id=' . $listId);
@@ -55,34 +59,51 @@ class ActiveCampaignMarketingTool extends BaseMarketingTool implements Marketing
     }
 
     /**
-     * 
+     * Retrieve subscribers for a list with id $listId for the connected ActiveCampaign account
      *
      * @param  string  $listId
+     * @return R64\LaravelEmailMarketing\Resources\ActiveCampaignMemberResource
      */
     public function getListSubscribers($listId) {
         return $this->getContacts('filters[listId]=' . $listId);
     }
 
-    
+    /**
+     * Retrieve all subscribers for the connected ActiveCampaign account
+     *
+     * @return R64\LaravelEmailMarketing\Resources\ActiveCampaignMemberResource
+     */
     public function getSubscribers() {
         return $this->getContacts('ids=all');
     }
 
-    public function createList() {
-
-    }
-
+    /**
+     * Get the connection status
+     *
+     * @return bool
+     */
     public function isConnected() {
         return $this->connected;
     }
 
+    /**
+     * Retrieve the ActiveCampaign API credentials from the config
+     * 
+     * @return array
+     */ 
     private function credentials()
     {
         if ($this->marketingToolExists()) {
             return $this->marketingTool();
         }
     }
-    
+        
+    /**
+     * Retrieve a list of contacts using the specified $params for the connected ActiveCampaign account
+     *
+     * @param  string  $params
+     * @return R64\LaravelEmailMarketing\Resources\ActiveCampaignMemberResource
+     */
     private function getContacts($params) {
         $listMembers = $this->acApi->api('contact/list?' . $params);
         if (!$listMembers) {
@@ -93,6 +114,12 @@ class ActiveCampaignMarketingTool extends BaseMarketingTool implements Marketing
         return ActiveCampaignMemberResource::collection(collect($realMembers));
     }
 
+    /**
+     * Strip out the unneeded data from the ActiveCampaign response
+     *
+     * @param  object $data
+     * @return array
+     */
     private function getRealData($data)
     {
         $realItems = [];

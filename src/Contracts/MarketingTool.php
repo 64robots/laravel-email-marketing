@@ -10,15 +10,26 @@ interface MarketingTool
     function getLists();
 
     /**
-     * Retireve list with listId
+     * Retrieve list with listId
      *
      * @param  string  $listId
      */
     function getList($listId);
 
+    /**
+     * Retrieve subscribers from list with listId
+     *
+     * @param  string  $listId
+     */
     function getListSubscribers($listId);
 
+    /**
+     * Retrieve all subscribers
+     */
     function getSubscribers();
 
+    /**
+     * Retrieve the connection status
+     */
     function isConnected();
 }

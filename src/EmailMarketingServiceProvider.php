@@ -4,6 +4,7 @@ namespace R64\LaravelEmailMarketing;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use R64\LaravelEmailMarketing\MarketingTools\MarketingToolManager;
 
 class EmailMarketingServiceProvider extends ServiceProvider
 {
@@ -33,6 +34,10 @@ class EmailMarketingServiceProvider extends ServiceProvider
         $this->commands([
             Console\TestEmailMarketingCommand::class
         ]);
+
+        $this->app->singleton('R64\LaravelEmailMarketing\MarketingTools\MarketingToolManager', function ($app) {
+            return new MarketingToolManager;
+        });
     }
     
     /**

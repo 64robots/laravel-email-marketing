@@ -29,7 +29,9 @@ class GetResponseMarketingTool extends BaseMarketingTool implements MarketingToo
     }
 
     /**
+     * Retrieve all lists for the connected GetResponse account
      *
+     * @return R64\LaravelEmailMarketing\Resources\GetResponseListResource
      */
     public function getLists() {
         
@@ -42,9 +44,10 @@ class GetResponseMarketingTool extends BaseMarketingTool implements MarketingToo
     }
 
     /**
-     * 
+     * Retrieve a specific list with id $listId for the connected GetResponse account
      *
      * @param  string  $listId
+     * @return R64\LaravelEmailMarketing\Resources\GetResponseListResource
      */
     public function getList($listId) {
         $list = $this->grApi->getcampaign($listId);
@@ -55,9 +58,10 @@ class GetResponseMarketingTool extends BaseMarketingTool implements MarketingToo
     }
 
     /**
-     * 
+     * Retrieve subscribers for a list with id $listId for the connected GetResponse account
      *
      * @param  string  $listId
+     * @return R64\LaravelEmailMarketing\Resources\GetResponseMemberResource
      */
     public function getListSubscribers($listId) {
         $listMembers = $this->grApi->getContacts([
@@ -70,6 +74,11 @@ class GetResponseMarketingTool extends BaseMarketingTool implements MarketingToo
         return GetResponseMemberResource::collection(collect($listMembers));
     }
 
+    /**
+     * Retrieve all subscribers for the connected GetResponse account
+     *
+     * @return R64\LaravelEmailMarketing\Resources\GetResponseMemberResource
+     */
     public function getSubscribers() {
         $listMembers = $this->grApi->getContacts();
         if (!$listMembers) {
@@ -79,14 +88,29 @@ class GetResponseMarketingTool extends BaseMarketingTool implements MarketingToo
         return GetResponseMemberResource::collection(collect($listMembers));
     }
 
+    /**
+     * Get the connection status
+     *
+     * @return bool
+     */
     public function isConnected() {
         return $this->connected;
     }
     
+    /**
+     * Ping the GetRespnse API to verify a successful connection after initializing
+     * 
+     * @return bool
+     */
     private function ping() {
         return $this->grApi->ping();
     }
 
+    /**
+     * Retrieve the GetResponse API credentials from the config
+     * 
+     * @return string
+     */ 
     private function credentials()
     {
         if ($this->marketingToolExists()) {

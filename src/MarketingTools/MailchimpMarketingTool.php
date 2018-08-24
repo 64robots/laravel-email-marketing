@@ -15,7 +15,7 @@ class MailchimpMarketingTool extends BaseMarketingTool implements MarketingToolC
     private $connected; 
 
     /**
-     * 
+     * Initailize the Mailchimp API and check for successful connection
      */
     function __construct() {
         $apiKey = $this->credentials();
@@ -27,7 +27,9 @@ class MailchimpMarketingTool extends BaseMarketingTool implements MarketingToolC
     }
 
     /**
-     *
+     * Retrieve all lists for the connected Mailchimp account
+     * 
+     * @return R64\LaravelEmailMarketing\Resources\MailchimpListResource
      */
     public function getLists() {
         $lists = $this->mailchimpApi->get('lists');
@@ -38,9 +40,10 @@ class MailchimpMarketingTool extends BaseMarketingTool implements MarketingToolC
     }
 
     /**
-     * 
+     * Retrieve a specific list with id $listId for the connected Mailchimp account
      *
      * @param  string  $listId
+     * @return R64\LaravelEmailMarketing\Resources\MailchimpListResource
      */
     public function getList($listId) {
         $list = $this->mailchimpApi->get('lists/' . $listId);
@@ -52,9 +55,10 @@ class MailchimpMarketingTool extends BaseMarketingTool implements MarketingToolC
     }
 
     /**
-     * 
+     * Retrieve subscribers for a list with id $listId for the connected Mailchimp account
      *
      * @param  string  $listId
+     * @return R64\LaravelEmailMarketing\Resources\MailchimpMemberResource
      */
     public function getListSubscribers($listId) {
         $listMembers = $this->mailchimpApi->get('lists/' . $listId . '/members');
@@ -65,22 +69,38 @@ class MailchimpMarketingTool extends BaseMarketingTool implements MarketingToolC
         return MailchimpMemberResource::collection(collect($listMembers['members']));
     }
 
+    /**
+     * Mailchimp has no call to retrieve all subscribers so we just return null
+     *
+     * @return null
+     */
     public function getSubscribers() {
         return null;
     }
-    
-    public function createList() {
 
-    }
-
+    /**
+     * Get the connection status as a result of ping()
+     *
+     * @return bool
+     */
     public function isConnected() {
         return $this->connected;
     }
     
+    /**
+     * Ping the Mailchimp API to verify a successful connection after initializing
+     * 
+     * @return bool
+     */
     private function ping() {
         return $this->mailchimpApi->get('ping') ? true : false;
     }
 
+    /**
+     * Retrieve the Mailchimp API credentials from the config
+     * 
+     * @return string
+     */ 
     private function credentials()
     {
         if ($this->marketingToolExists()) {
