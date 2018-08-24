@@ -7,7 +7,7 @@ return [
         'activecampaign' => [
             'display' => 'ActiveCampaign',
             'api_key' => env('ACTIVECAMPAIGN_API_KEY', ''),
-            'url' => env('ACTIVECAMAPIGN_URL', '')
+            'url' => env('ACTIVECAMPAIGN_URL', '')
         ],
 
         'mailchimp' => [

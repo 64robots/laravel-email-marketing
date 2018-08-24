@@ -2,12 +2,11 @@
 
 namespace R64\LaravelEmailMarketing\MarketingTools;
 
-use \ActiveCampaign;
 use R64\LaravelEmailMarketing\Contracts\MarketingTool as MarketingToolContract;
 use R64\LaravelEmailMarketing\Exceptions\InvalidConfiguration;
 use R64\LaravelEmailMarketing\MarketingTools\BaseMarketingTool;
-use R64\LaravelEmailMarketing\Resources\MailchimpListResource;
-use R64\LaravelEmailMarketing\Resources\MailchimpMemberResource;
+use R64\LaravelEmailMarketing\Resources\ActiveCampaignListResource;
+use R64\LaravelEmailMarketing\Resources\ActiveCampaignMemberResource;
 
 class ActiveCampaignMarketingTool extends BaseMarketingTool implements MarketingToolContract
 {   
@@ -31,12 +30,15 @@ class ActiveCampaignMarketingTool extends BaseMarketingTool implements Marketing
      *
      */
     public function getLists() {
-        $lists = $this->acApi->api('list/list');
-        dd($lists);
+        
+        $lists = (array)$this->acApi->api('list/list?ids=all');
         if (!$lists) {
             return false;
         }
-        return MailchimpListResource::collection(collect($lists['lists']));
+
+        $realLists = $this->getRealData($lists);
+
+        return ActiveCampaignListResource::collection( collect($realLists) );
     }
 
     /**
@@ -45,12 +47,11 @@ class ActiveCampaignMarketingTool extends BaseMarketingTool implements Marketing
      * @param  string  $listId
      */
     public function getList($listId) {
-        $list = $this->mailchimpApi->get('lists/' . $listId);
+        $list = $this->acApi->api('list/view?id=' . $listId);
         if (!$list) {
             return false;
         }
-
-        return new MailchimpListResource($list);
+        return new ActiveCampaignListResource($list);
     }
 
     /**
@@ -59,12 +60,13 @@ class ActiveCampaignMarketingTool extends BaseMarketingTool implements Marketing
      * @param  string  $listId
      */
     public function getListMembers($listId) {
-        $listMembers = $this->mailchimpApi->get('lists/' . $listId . '/members');
+        $listMembers = $this->acApi->api('contact/list?filters[listId]=' . $listId);
         if (!$listMembers) {
             return false;
         }
 
-        return MailchimpMemberResource::collection(collect($listMembers['members']));
+        $realMembers = $this->getRealData($listMembers);
+        return ActiveCampaignMemberResource::collection(collect($realMembers));
     }
 
     
@@ -85,5 +87,16 @@ class ActiveCampaignMarketingTool extends BaseMarketingTool implements Marketing
         if ($this->marketingToolExists()) {
             return $this->marketingTool();
         }
+    }
+
+    private function getRealData($data)
+    {
+        $realItems = [];
+        foreach ($data as $item) {
+            if (is_object($item)) {
+                $realItems[] = $item;
+            }
+        }
+        return $realItems;
     }
 }

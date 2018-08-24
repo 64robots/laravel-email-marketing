@@ -6,4 +6,4 @@ To configure the package add this key to your .env:
 Valid options are mailchimp for now.
 
 Add your MailChimp API key to the .env as:
-`MAILCHIMP_API_KEY=49ccc6d5bc3bef393b7c9f483a46e263-us19`
+`MAILCHIMP_API_KEY=`
