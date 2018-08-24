@@ -1,10 +1,8 @@
 # A Laravel package to manage your email lists, tags and subscribers for a variety of marketing tools
 
-
-This [Laravel](https://www.laravel.com) package lets you:
-- View your lists and subscribers from a variety of email tools
-
 ## Features
+- View all lists and list subscribers
+- View all subscribers
 
 Planned features:
 - Create and edit lists
