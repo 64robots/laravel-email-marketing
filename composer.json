@@ -2,6 +2,12 @@
     "name": "r64/laravel-email-marketing",
     "description": "A Laravel package to performa actions on a number of email marketing tools",
     "keywords": [
+        "laravel",
+        "nova",
+        "mailchimp",
+        "activecampaign",
+        "getresponse",
+        "email marketing"
     ],
     "license": "MIT",
     "require": {
