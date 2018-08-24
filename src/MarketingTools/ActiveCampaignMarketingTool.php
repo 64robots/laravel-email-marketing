@@ -2,15 +2,16 @@
 
 namespace R64\LaravelEmailMarketing\MarketingTools;
 
+use \ActiveCampaign;
 use R64\LaravelEmailMarketing\Contracts\MarketingTool as MarketingToolContract;
 use R64\LaravelEmailMarketing\Exceptions\InvalidConfiguration;
 use R64\LaravelEmailMarketing\MarketingTools\BaseMarketingTool;
 use R64\LaravelEmailMarketing\Resources\MailchimpListResource;
 use R64\LaravelEmailMarketing\Resources\MailchimpMemberResource;
 
-class MailchimpMarketingTool extends BaseMarketingTool implements MarketingToolContract
+class ActiveCampaignMarketingTool extends BaseMarketingTool implements MarketingToolContract
 {   
-    private $mailchimpApi;
+    private $acApi;
 
     private $connected; 
 
@@ -18,11 +19,11 @@ class MailchimpMarketingTool extends BaseMarketingTool implements MarketingToolC
      * 
      */
     function __construct() {
-        $apiKey = $this->credentials();
-        if (!$apiKey) {
-            throw new InvalidConfiguration('MailChimp credentials not found in config');
+        $credentials = $this->credentials();
+        if (!$credentials) {
+            throw new InvalidConfiguration('ActiveCampaign credentials not found in config');
         }
-        $this->mailchimpApi = new \DrewM\MailChimp\MailChimp($apiKey);
+        $this->acApi = new \ActiveCampaign($credentials['url'], $credentials['api_key']);
         $this->connected = $this->ping();
     }
 
@@ -30,7 +31,8 @@ class MailchimpMarketingTool extends BaseMarketingTool implements MarketingToolC
      *
      */
     public function getLists() {
-        $lists = $this->mailchimpApi->get('lists');
+        $lists = $this->acApi->api('list/list');
+        dd($lists);
         if (!$lists) {
             return false;
         }
@@ -75,13 +77,13 @@ class MailchimpMarketingTool extends BaseMarketingTool implements MarketingToolC
     }
     
     private function ping() {
-        return $this->mailchimpApi->get('ping') ? true : false;
+        return true;
     }
 
     private function credentials()
     {
         if ($this->marketingToolExists()) {
-            return $this->marketingTool()['api_key'];
+            return $this->marketingTool();
         }
     }
 }

@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": ">=7.1.0",
+        "activecampaign/api-php": "^2.0",
         "drewm/mailchimp-api": "^2.5"
     },
     "autoload": {

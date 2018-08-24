@@ -5,12 +5,12 @@ namespace R64\LaravelEmailMarketing\MarketingTools;
 use R64\LaravelEmailMarketing\Contracts\MarketingTool as MarketingToolContract;
 use R64\LaravelEmailMarketing\Exceptions\InvalidConfiguration;
 use R64\LaravelEmailMarketing\MarketingTools\BaseMarketingTool;
-use \DrewM\MailChimp\MailChimp;
 use Exception;
 
 class MarketingToolManager extends BaseMarketingTool implements MarketingToolContract
 {
     const TOOL_CLASSES = [
+        'activecampaign' => \R64\LaravelEmailMarketing\MarketingTools\ActiveCampaignMarketingTool::class,
         'mailchimp' => \R64\LaravelEmailMarketing\MarketingTools\MailchimpMarketingTool::class
     ];
     
