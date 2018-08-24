@@ -16,5 +16,9 @@ interface MarketingTool
      */
     function getList($listId);
 
+    function getListSubscribers($listId);
+
+    function getSubscribers();
+
     function isConnected();
 }

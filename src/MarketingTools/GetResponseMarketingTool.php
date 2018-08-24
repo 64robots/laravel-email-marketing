@@ -59,7 +59,7 @@ class GetResponseMarketingTool extends BaseMarketingTool implements MarketingToo
      *
      * @param  string  $listId
      */
-    public function getListMembers($listId) {
+    public function getListSubscribers($listId) {
         $listMembers = $this->grApi->getContacts([
             'query[campaignId]' => $listId
         ]);
@@ -70,9 +70,13 @@ class GetResponseMarketingTool extends BaseMarketingTool implements MarketingToo
         return GetResponseMemberResource::collection(collect($listMembers));
     }
 
-    
-    public function createList() {
+    public function getSubscribers() {
+        $listMembers = $this->grApi->getContacts();
+        if (!$listMembers) {
+            return false;
+        }
 
+        return GetResponseMemberResource::collection(collect($listMembers));
     }
 
     public function isConnected() {

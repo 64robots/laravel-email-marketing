@@ -14,7 +14,7 @@ class MarketingToolManager extends BaseMarketingTool implements MarketingToolCon
         'getresponse' => \R64\LaravelEmailMarketing\MarketingTools\GetResponseMarketingTool::class,
         'mailchimp' => \R64\LaravelEmailMarketing\MarketingTools\MailchimpMarketingTool::class
     ];
-    
+
     private $marketingTool;
 
     private $connected;
@@ -48,8 +48,12 @@ class MarketingToolManager extends BaseMarketingTool implements MarketingToolCon
         return $this->marketingTool->getList($listId);
     }
 
-    public function getListMembers($listId) {
-        return $this->marketingTool->getListMembers($listId);
+    public function getListSubscribers($listId) {
+        return $this->marketingTool->getListSubscribers($listId);
+    }
+
+    public function getSubscribers() {
+        return $this->marketingTool->getSubscribers();
     }
 
     public function isConnected() {

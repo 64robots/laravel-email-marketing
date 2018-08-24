@@ -56,7 +56,7 @@ class MailchimpMarketingTool extends BaseMarketingTool implements MarketingToolC
      *
      * @param  string  $listId
      */
-    public function getListMembers($listId) {
+    public function getListSubscribers($listId) {
         $listMembers = $this->mailchimpApi->get('lists/' . $listId . '/members');
         if (!$listMembers) {
             return false;
@@ -65,6 +65,9 @@ class MailchimpMarketingTool extends BaseMarketingTool implements MarketingToolC
         return MailchimpMemberResource::collection(collect($listMembers['members']));
     }
 
+    public function getSubscribers() {
+        return null;
+    }
     
     public function createList() {
 

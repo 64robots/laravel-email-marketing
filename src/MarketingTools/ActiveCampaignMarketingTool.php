@@ -59,17 +59,15 @@ class ActiveCampaignMarketingTool extends BaseMarketingTool implements Marketing
      *
      * @param  string  $listId
      */
-    public function getListMembers($listId) {
-        $listMembers = $this->acApi->api('contact/list?filters[listId]=' . $listId);
-        if (!$listMembers) {
-            return false;
-        }
-
-        $realMembers = $this->getRealData($listMembers);
-        return ActiveCampaignMemberResource::collection(collect($realMembers));
+    public function getListSubscribers($listId) {
+        return $this->getContacts('filters[listId]=' . $listId);
     }
 
     
+    public function getSubscribers() {
+        return $this->getContacts('ids=all');
+    }
+
     public function createList() {
 
     }
@@ -77,16 +75,22 @@ class ActiveCampaignMarketingTool extends BaseMarketingTool implements Marketing
     public function isConnected() {
         return $this->connected;
     }
-    
-    private function ping() {
-        return true;
-    }
 
     private function credentials()
     {
         if ($this->marketingToolExists()) {
             return $this->marketingTool();
         }
+    }
+    
+    private function getContacts($params) {
+        $listMembers = $this->acApi->api('contact/list?' . $params);
+        if (!$listMembers) {
+            return false;
+        }
+
+        $realMembers = $this->getRealData($listMembers);
+        return ActiveCampaignMemberResource::collection(collect($realMembers));
     }
 
     private function getRealData($data)
@@ -98,5 +102,10 @@ class ActiveCampaignMarketingTool extends BaseMarketingTool implements Marketing
             }
         }
         return $realItems;
+    }
+
+    private function ping() 
+    {
+        return true;
     }
 }
