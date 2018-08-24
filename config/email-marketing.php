@@ -10,6 +10,11 @@ return [
             'url' => env('ACTIVECAMPAIGN_URL', '')
         ],
 
+        'getresponse' => [
+            'display' => 'GetResponse',
+            'api_key' => env('GETRESPONSE_API_KEY', '')
+        ],
+        
         'mailchimp' => [
             'display' => 'MailChimp',
             'api_key' =>  env('MAILCHIMP_API_KEY', '')

@@ -11,6 +11,7 @@ class MarketingToolManager extends BaseMarketingTool implements MarketingToolCon
 {
     const TOOL_CLASSES = [
         'activecampaign' => \R64\LaravelEmailMarketing\MarketingTools\ActiveCampaignMarketingTool::class,
+        'getresponse' => \R64\LaravelEmailMarketing\MarketingTools\GetResponseMarketingTool::class,
         'mailchimp' => \R64\LaravelEmailMarketing\MarketingTools\MailchimpMarketingTool::class
     ];
     
